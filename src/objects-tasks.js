@@ -18,8 +18,9 @@
  *    shallowCopy({}) => {}
  */
 function shallowCopy(obj) {
-  const newObj = { ...obj };
-  return newObj;
+  const newObj = {};
+  const res = Object.assign(newObj, obj);
+  return res;
 }
 
 /**
@@ -126,8 +127,14 @@ function makeImmutable(obj) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  const res = [];
+  Object.keys(lettersObject).forEach((key) => {
+    lettersObject[key].forEach((pos) => {
+      res[pos] = key;
+    });
+  });
+  return res.join('');
 }
 
 /**
@@ -144,8 +151,16 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  let sum = 0;
+  let res = true;
+  queue.forEach((item, index) => {
+    if (index !== 0 && sum < item) {
+      res = false;
+    }
+    sum += item;
+  });
+  return res;
 }
 
 /**
@@ -194,8 +209,9 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const obj = JSON.parse(json);
+  return Object.setPrototypeOf(obj, proto);
 }
 
 /**
@@ -224,8 +240,24 @@ function fromJSON(/* proto, json */) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (a.country > b.country) {
+      return 1;
+    }
+    if (a.country < b.country) {
+      return -1;
+    }
+    if (a.country === b.country) {
+      if (a.city > b.city) {
+        return 1;
+      }
+      if (a.city < b.city) {
+        return -1;
+      }
+    }
+    return 0;
+  });
 }
 
 /**
